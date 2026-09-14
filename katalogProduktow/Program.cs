@@ -1,4 +1,16 @@
-﻿Console.OutputEncoding = System.Text.Encoding.UTF8;
+﻿double cena = 1234.567;
+int sztuk = 4;
+
+// Sklejanie plusami - działa, ale przy dłuższym napisie robi się nieczytelne
+Console.WriteLine("Cena: " + cena + " zł, sztuk: " + sztuk);
+
+// Interpolacja: znak dolara przed cudzysłowem pozwala wstawić wartość
+// wprost w tekst, w nawiasach klamrowych
+Console.WriteLine($"Cena: {cena} zł, sztuk: {sztuk}");
+
+
+
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 string[] nazwy = { "Procesor", "Pamięć RAM", "Dysk SSD", "Zasilacz", "Karta graficzna" };
 double[] ceny = { 899.00, 249.50, 379.00, 189.99, 5099.00 };
