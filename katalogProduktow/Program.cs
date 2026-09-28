@@ -1,83 +1,49 @@
 ﻿using katalogProduktow;
 
-double cena = 1234.567;
-int sztuk = 4;
-
-// Sklejanie plusami - działa, ale przy dłuższym napisie robi się nieczytelne
-Console.WriteLine("Cena: " + cena + " zł, sztuk: " + sztuk);
-
-// Interpolacja: znak dolara przed cudzysłowem pozwala wstawić wartość
-// wprost w tekst, w nawiasach klamrowych
-Console.WriteLine($"Cena: {cena} zł, sztuk: {sztuk}");
-
-
-
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-string[] nazwy = { "Procesor", "Pamięć RAM", "Dysk SSD", "Zasilacz", "Karta graficzna" };
-double[] ceny = { 899.00, 249.50, 379.00, 189.99, 5099.00 };
+string[] nazwy = { "Procesor", "Pamięć RAM", "Dysk SSD", "Zasilacz" };
+double[] ceny = { 899.00, 249.50, 379.00, 189.99 };
 
-//////////////////////////////////
-
-Product procesor = new Product();
-procesor.Nazwa = "Procesor";
+//stwórz nowy obiekt procesor według definicji klasy Produkt
+Produkt procesor = new Produkt();
+//nadaj mu wartości pól
+procesor.Nazwa = "AMD Ryzen";
 procesor.Cena = 899.00;
 procesor.Kategoria = "Podzespoły";
-procesor.ilosc = 10;
+procesor.Ilosc = 10;
 
-//////////////////////////////////
-
-Product ram = new Product
+//można też alternatywnie zainicjalizować obiekt w jednym bloku, bezpośrednio przy tworzeniu obiektu
+Produkt ram = new Produkt
 {
     Nazwa = "Pamięć RAM",
-    Cena = 249.50,
+    Cena = 527.50,
     Kategoria = "Podzespoły",
-    ilosc = 20
+    Ilosc = 20
 };
-
-Product ssd = new Product
+Produkt ssd = new Produkt
 {
     Nazwa = "Dysk SSD",
     Cena = 379.00,
     Kategoria = "Podzespoły",
-    ilosc = 15
+    Ilosc = 1
 };
-
-Product zasilacz = new Product
+Produkt zasilacz = new Produkt
 {
     Nazwa = "Zasilacz",
     Cena = 189.99,
     Kategoria = "Podzespoły",
-    ilosc = 30
+    Ilosc = 5
 };
+//tworzymy tablicę produktów
+Produkt[] produkty = { procesor, ram, ssd, zasilacz };
 
-
-
-//////////////////////////////////
-Product[] products = { procesor, ram, ssd, zasilacz };
-
-foreach (Product product in products)
+foreach (Produkt produkt in produkty)
 {
-    Console.WriteLine($"Produkt: {product.Nazwa, -25} | cena: {product.Cena,10:F2} zł | kategoria: {product.Kategoria} | ilość: {product.ilosc}");
-};
-
-// Obliczenie najniższej, najwyższej i średniej ceny w nowej tablicy
-double najnizsza = double.MaxValue;
-double najwyzsza = double.MinValue;
-double sumaCen = 0;
-int ile = products.Length;
-
-foreach (Product p in products)
-{
-    if (p.Cena < najnizsza) najnizsza = p.Cena;
-    if (p.Cena > najwyzsza) najwyzsza = p.Cena;
-    sumaCen += p.Cena;
+    Console.WriteLine($"Nazwa: {produkt.Nazwa,-25}| Cena: {produkt.Cena,10:f2} zł | " +
+        $"Kategoria: {produkt.Kategoria} | Ilość: {produkt.Ilosc,5}");
 }
 
-double sredniaCen = ile > 0 ? sumaCen / ile : 0;
-Console.WriteLine($"Najniższa: {najnizsza:F2} zł | Najwyższa: {najwyzsza:F2} zł | Średnia: {sredniaCen:F2} zł z {ile} produktów");
-
-///////////////////////////////////////////////////////////////
 
 double suma = 0;
 int licznik = 0;
@@ -94,4 +60,5 @@ for (int i = 0; i < nazwy.Length; i++)
 
 // Uwaga: przy pustym liczniku byłoby dzielenie przez zero
 double srednia = suma / licznik;
-Console.WriteLine($"Średnia cena: {srednia:F2} zł z {licznik} produktów");
+//Console.WriteLine($"Ilość produktów w bazie: {nazwy.Length}");
+//Console.WriteLine($"Średnia cena: {srednia:F2} zł z {licznik} produktów");
