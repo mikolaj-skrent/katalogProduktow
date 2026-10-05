@@ -1,64 +1,104 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace katalogProduktow
 {
     internal class Produkt
     {
-        private string _nazwa;
+        private string _nazwa = "Brak nazwy";
         public string Nazwa
         {
-            get { return _nazwa; }
+            get => _nazwa;
             set
             {
-                if (value == String.Empty)
-                {
-                    _nazwa = "Brak nazwy";
+                if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Nazwa nie może być pusta.");
-                }
-                else
-                {
-                    _nazwa = value;
-                }
+                _nazwa = value;
             }
         }
-        // to jest prywatne pole które przechowuje wartość ceny produktu
+
         private double _cena;
-        //to jest publiczna właściwość (pole) która pozwala na KONTROLOWANY dostęp do prywatnego pola _cena
         public double Cena
         {
-            get { return _cena; } //jeśli ktoś chce przeczytać cenę produktu, to zwracamy wartość prywatnego pola _cena - nie ma problemu
-            set //jeśli ktoś chce ustawić cenę produktu, to sprawdzamy czy wartość jest poprawna
+            get => _cena;
+            set
             {
-                if (value < 0) //jeśli ktoś próbuje ustawić cenę na wartość ujemną, to wyrzucamy wyjątek
-                {
-                    _cena = 0;
+                if (value < 0)
                     throw new ArgumentException("Cena nie może być ujemna.");
-                }
-                else //w innym przypadku ustawiamy wartość prywatnego pola _cena na wartość podaną przez użytkownika
-                {
-                    _cena = value;
-                }
+                _cena = value;
             }
         }
 
-        public string Kategoria;
-        public int Ilosc;
+        public string Kategoria { get; set; } = string.Empty;
 
-        // właściwość wyliczana - nie przechowujemy tego tylko liczymy na żywo
-        public double WartoscMagazynu
+        private int _ilosc;
+        public int Ilosc
         {
-            get { return _cena * Ilosc; }
+            get => _ilosc;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Ilość nie może być ujemna.");
+                _ilosc = value;
+            }
         }
 
-        public Product(string nazwa, double cena, string kategoria, int ilosc)
+        public double WartoscMagazynu => Cena * Ilosc;
+
+        // Konstruktor bezparametrowy używany w Program.cs
+        public Produkt()
+        {
+            _nazwa = "Brak nazwy";
+            _cena = 0;
+            Kategoria = string.Empty;
+            _ilosc = 0;
+        }
+
+        // Konstruktor parametryczny
+        public Produkt(string nazwa, double cena, string kategoria, int ilosc)
         {
             Nazwa = nazwa;
             Cena = cena;
             Kategoria = kategoria;
             Ilosc = ilosc;
+        }
+
+        public void WypiszProdukt()
+        {
+            Console.WriteLine($"Nazwa: {Nazwa}, Cena: {Cena:F2} zł, Kategoria: {Kategoria}, Ilość: {Ilosc}, Wartość magazynu: {WartoscMagazynu:F2} zł");
+        }
+
+        public string InformacjeOProdukcie()
+        {
+            return $"Nazwa: {Nazwa}, Cena: {Cena:F2} zł, Kategoria: {Kategoria}, Ilość: {Ilosc}, Wartość magazynu: {WartoscMagazynu:F2} zł";
+        }
+
+        public static double ObliczWartoscMagazynu(Produkt[] produkty)
+        {
+            double suma = 0;
+            foreach (Produkt produkt in produkty)
+            {
+                suma += produkt.WartoscMagazynu;
+            }
+            return suma;
+        }
+
+        public bool CzyMoznaZamowic()
+        {
+            return Ilosc > MinimalnyStan;
+        }
+
+        public void Sprzedaj()
+        {
+            if (CzyMoznaZamowic())
+            {
+                Ilosc--;
+
+                Console.WriteLine($"Sprzedano produkt: {Nazwa}. Pozostało na stanie: {Ilosc}");
+            }
+            else
+            {
+                Console.WriteLine($"Nie można sprzedać produktu: {Nazwa}. Brak na stanie.");
+            }
         }
     }
 }

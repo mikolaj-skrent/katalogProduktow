@@ -40,8 +40,7 @@ Produkt[] produkty = { procesor, ram, ssd, zasilacz };
 
 foreach (Produkt produkt in produkty)
 {
-    Console.WriteLine($"Nazwa: {produkt.Nazwa,-25}| Cena: {produkt.Cena,10:f2} zł | " +
-        $"Kategoria: {produkt.Kategoria} | Ilość: {produkt.Ilosc,5}");
+    produkt.WypiszProdukt();
 }
 
 
@@ -53,12 +52,13 @@ for (int i = 0; i < nazwy.Length; i++)
     // Do sumy trafiają tylko produkty droższe niż 200 zł
     if (ceny[i] > 200)
     {
-        suma = suma + ceny[i];
+        suma += ceny[i];
         licznik++;
     }
 }
 
-// Uwaga: przy pustym liczniku byłoby dzielenie przez zero
-double srednia = suma / licznik;
-//Console.WriteLine($"Ilość produktów w bazie: {nazwy.Length}");
-//Console.WriteLine($"Średnia cena: {srednia:F2} zł z {licznik} produktów");
+// Zabezpieczenie przed dzieleniem przez zero
+double srednia = licznik > 0 ? suma / licznik : 0;
+Console.WriteLine($"Średnia cena: {srednia:F2} zł z {licznik} produktów");
+
+
