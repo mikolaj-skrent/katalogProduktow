@@ -44,3 +44,12 @@ double srednia = suma / licznik;
 //wywołujemy poprzez nazwę klasy -> kropka -> nazwa metody statycznej -> w nawiasach podajemy tablicę produktów
 double wartoscMagazynu = Produkt.ObliczWartoscMagazynu(produkty);
 Console.WriteLine($"Suma wartości magazynu dla wszystkich produktów: {wartoscMagazynu:f2} zł");
+
+foreach (Produkt produkt in produkty)
+{
+    produkt.Sprzedaj();
+    produkt.Sprzedaj();
+    produkt.Sprzedaj();
+    produkt.Sprzedaj();
+    produkt.Sprzedaj();
+}
